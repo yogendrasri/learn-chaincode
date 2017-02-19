@@ -18,7 +18,7 @@ type WayBill struct {
 	Quantity         int    `json:"quantity"`
 }
 
-type MasterWayBill struct {
+type mWayBill struct {
 	WayBillID        string      `json:"wayBillID"`
 	CreatedDate      string      `json:"createdDate"`
 	LastModifiedDate string      `json:"lastModifiedDate"`
@@ -136,7 +136,7 @@ func GetCertAttribute(stub shim.ChaincodeStubInterface, attributeName string) (s
 func (t *SampleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	if function == "CreateWayBill" {
 		return CreateWayBill(stub, args)
-	} else if function == "CreateWayBill" {
+	} else if function == "CreateMasterWayBill" {
         return CreateMasterWayBill(stub, args)
     
     } else {
