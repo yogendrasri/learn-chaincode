@@ -18,6 +18,16 @@ type WayBill struct {
 	Quantity         int    `json:"quantity"`
 }
 
+type MasterWayBill struct {
+	WayBillID        string      `json:"wayBillID"`
+	CreatedDate      string      `json:"createdDate"`
+	LastModifiedDate string      `json:"lastModifiedDate"`
+	Status           string      `json:"status"`
+	CreatedBy        string      `json:"createdBy"`
+	PendingWith      string      `json:"pendingWith"`
+	Palettes         []string    `json:"palettes"`
+}
+
 func GetWayBill(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	fmt.Println("Entering GetWayBill")
 
@@ -34,6 +44,25 @@ func GetWayBill(stub shim.ChaincodeStubInterface, args []string) ([]byte, error)
 	}
 	return bytes, nil
 }
+
+func GetMasterWayBill(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	fmt.Println("Entering GetMasterWayBill")
+
+	if len(args) < 1 {
+		fmt.Println("Invalid number of arguments")
+		return nil, errors.New("Missing master way bill ID")
+	}
+
+	var mWayBillId = args[0]
+	bytes, err := stub.GetState(mWayBillId)
+	if err != nil {
+		fmt.Println("Could not fetch loan way bill with id "+mWayBillId+" from ledger", err)
+		return nil, err
+	}
+	return bytes, nil
+}
+
+
 
 func CreateWayBill(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	fmt.Println("Entering CreateWayBill")
@@ -57,6 +86,29 @@ func CreateWayBill(stub shim.ChaincodeStubInterface, args []string) ([]byte, err
 
 }
 
+func CreateMasterWayBill(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	fmt.Println("Entering CreateWayBill")
+
+	if len(args) < 2 {
+		fmt.Println("Invalid number of args")
+		return nil, errors.New("Expected atleast two arguments for master way bill creation")
+	}
+
+	var mWayBillId = args[0]
+	var mwayBillInput = args[1]
+
+	err := stub.PutState(mWayBillId, []byte(mwayBillInput))
+	if err != nil {
+		fmt.Println("Could not save master way bill to ledger", err)
+		return nil, err
+	}
+
+	fmt.Println("Successfully saved master way bill")
+	return nil, nil
+
+}
+
+
 func (t *SampleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	fmt.Println("Inside INIT for test chaincode")
 	return nil, nil
@@ -65,7 +117,9 @@ func (t *SampleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 func (t *SampleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	if function == "GetWayBill" {
 		return GetWayBill(stub, args)
-	}
+	} else if function == "GetMasterWayBill" {
+        return GetMasterWayBill(stub, args)
+    }
 	return nil, nil
 }
 
@@ -82,7 +136,10 @@ func GetCertAttribute(stub shim.ChaincodeStubInterface, attributeName string) (s
 func (t *SampleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	if function == "CreateWayBill" {
 		return CreateWayBill(stub, args)
-	} else {
+	} else if function == "CreateWayBill" {
+        return CreateMasterWayBill(stub, args)
+    
+    } else {
 		return nil, errors.New("Invalid function name " + function)
 	}
 	return nil, nil
