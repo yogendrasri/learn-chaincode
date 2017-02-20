@@ -19,10 +19,13 @@ type WayBill struct {
 }
 
 type mWayBill struct {
-	ID               string `json:"id"`
-	AssetType        string `json:"assetType"`
-	LastModifiedDate string `json:"lastModifiedDate"`
-	Quantity         int    `json:"quantity"`
+	WayBillID        string   `json:"wayBillID"`
+	CreatedDate      string   `json:"createdDate"`
+	LastModifiedDate string   `json:"lastModifiedDate"`
+	Status           string   `json:"status"`
+	CreatedBy        string   `json:"createdBy"`
+	PendingWith      string   `json:"pendingWith"`
+	Palettes         []string `json:"palettes"`
 }
 
 func GetWayBill(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
