@@ -111,8 +111,7 @@ func (t *SampleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 func (t *SampleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	if function == "GetWayBill" {
 		return GetWayBill(stub, args)
-	} else if function == "getMasterWayBill" {
-		fmt.Println("Inside getMasterWayBill for test chaincode")
+	} else if function == "GetMasterWayBill" {
 		return GetMasterWayBill(stub, args)
 	} else {
 		return nil, errors.New("Invalid function name " + function)
@@ -135,7 +134,6 @@ func (t *SampleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 	if function == "CreateWayBill" {
 		return CreateWayBill(stub, args)
 	} else if function == "CreateMasterWayBill" {
-		fmt.Println("Inside CreateMasterWayBill for test chaincode")
 		return CreateMasterWayBill(stub, args)
 	} else {
 		return nil, errors.New("Invalid function name " + function)
