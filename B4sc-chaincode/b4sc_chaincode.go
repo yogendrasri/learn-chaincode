@@ -19,13 +19,10 @@ type WayBill struct {
 }
 
 type mWayBill struct {
-	WayBillID        string      `json:"wayBillID"`
-	CreatedDate      string      `json:"createdDate"`
-	LastModifiedDate string      `json:"lastModifiedDate"`
-	Status           string      `json:"status"`
-	CreatedBy        string      `json:"createdBy"`
-	PendingWith      string      `json:"pendingWith"`
-	Palettes         []string    `json:"palettes"`
+	ID               string `json:"id"`
+	AssetType        string `json:"assetType"`
+	LastModifiedDate string `json:"lastModifiedDate"`
+	Quantity         int    `json:"quantity"`
 }
 
 func GetWayBill(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
@@ -61,8 +58,6 @@ func GetMasterWayBill(stub shim.ChaincodeStubInterface, args []string) ([]byte, 
 	}
 	return bytes, nil
 }
-
-
 
 func CreateWayBill(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	fmt.Println("Entering CreateWayBill")
@@ -108,7 +103,6 @@ func CreateMasterWayBill(stub shim.ChaincodeStubInterface, args []string) ([]byt
 
 }
 
-
 func (t *SampleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	fmt.Println("Inside INIT for test chaincode")
 	return nil, nil
@@ -118,8 +112,11 @@ func (t *SampleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	if function == "GetWayBill" {
 		return GetWayBill(stub, args)
 	} else if function == "GetMasterWayBill" {
-        return GetMasterWayBill(stub, args)
-    }
+		return GetMasterWayBill(stub, args)
+	} else {
+		return nil, errors.New("Invalid function name " + function)
+	}
+
 	return nil, nil
 }
 
@@ -137,9 +134,9 @@ func (t *SampleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 	if function == "CreateWayBill" {
 		return CreateWayBill(stub, args)
 	} else if function == "CreateMasterWayBill" {
-        return CreateMasterWayBill(stub, args)
-    
-    } else {
+		return CreateMasterWayBill(stub, args)
+
+	} else {
 		return nil, errors.New("Invalid function name " + function)
 	}
 	return nil, nil
