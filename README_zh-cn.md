@@ -1,3 +1,7 @@
+# 注意
+
+该仓库已经过时了。这里只指导你如何编写 Hyperledger Fabric v0.6 的链码。对于如何编写最新 Fabric 版本的链码信息，请参阅 [Hyperledger 文档](http://hyperledger-fabric.readthedocs.io/en/latest/chaincode.html)。
+
 # 学习链码
 
 本教程可以指导你着手为 Hyperledger 编写智能合约。
@@ -322,7 +326,7 @@ func main() {
     "params": {
       "type": 1,
       "chaincodeID": {
-        "path": "https://github.com/<YOUR_GITHUB_ID_HERE>/learn-chaincode/finished"
+        "path": "http://gopkg.in/<YOUR_GITHUB_ID_HERE>/learn-chaincode.v2/start"
       },
       "ctorMsg": {
         "function": "init",
@@ -336,7 +340,7 @@ func main() {
   }
   ```
 
-- `"path"`：你创建的 Github 仓库分支的路径，`chaincode_finished.go` 文件在它的下一级目录 `/finished` 中。
+- `"path"`：你创建的 Github 仓库分支的路径，`chaincode_start.go` 文件在它的下一级目录 `/start` 中。
 
 - 发送该请求。如果一切顺利，你会看到类似下面的响应：
 
